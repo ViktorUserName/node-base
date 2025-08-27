@@ -1,4 +1,5 @@
 import express from 'express';
+import 'dotenv/config';
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 
