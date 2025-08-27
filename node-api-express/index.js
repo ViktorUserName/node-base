@@ -1,23 +1,22 @@
-import http from 'node:http';
-import 'dotenv/config'
-// import { url } from 'node:url'
+import express from 'express';
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
 
 
-const server = http.createServer( async (req, res) => {
-    if (req.url === "/" && req.method === "GET"){
-        res.writeHead(200, {"content-type": "application/json"})
-        res.write(JSON.stringify({message: "hello"}))
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const STATIC_PATH = join(__dirname, './static')
 
-        res.end()
-        return
-    }
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-    res.writeHead(404, {"content-type": "application/json"})
-    res.end(JSON.stringify({message: "error 404 no data"}))
+
+app.use(express.static("static"));
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(STATIC_PATH, "index.html"));
 })
 
-const PORT = process.env.PORT || 3000
-
-server.listen(PORT, () => {
-    console.log(`server on ${PORT}`)
-})
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
